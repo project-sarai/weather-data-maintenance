@@ -5,25 +5,24 @@ import random
 import datetime
 
 mongodb_host = 'localhost'
-mongodb_port = '27017'
+mongodb_port = '3001' #change port depending on database
 client  = MongoClient(mongodb_host + ':' + mongodb_port)
-db = client['sarai']
+db = client['meteor'] #change according to the db name
 collection = db['wunderground-data']
 
 http = urllib3.PoolManager()
 
 
-def update_database(date,icons,desc,rainfall,precipChance,tempMax,code,location,dayOfWeek,rainfallDayNight):
-	print(code)
+def update_database(date,icons,desc,rainfall,precipChance,tempMax,place,dayOfWeek,rainfallDayNight):
+	print("Updating:",place['code'])
 	print(date)
-	print(icons)	
-	collection.update({'code':code}, {'$set': {'rainfall':rainfall,'rainfallDayNight':rainfallDayNight,'date':date,'desc': desc,'icons': icons,'precipChance':precipChance, 'tempMax': tempMax, 'location': location, 'dayOfWeek': dayOfWeek}}, upsert=True)
+	print(rainfall)
+	print(tempMax)
+	print()	
+	collection.update({'code':place['code'], 'location': place['location']}, {'$set': {'rainfall':rainfall,'rainfallDayNight':rainfallDayNight,'date':date,'desc': desc,'icons': icons,'precipChance':precipChance, 'tempMax': tempMax, 'dayOfWeek': dayOfWeek}}, upsert=True)
 
 def get_weather_data(place):
-	#tokenid = 'F711872F73B24DB9BAC5D2C35DB9D85A'
-	#api = 'https://api.weatherlink.com/v1/NoaaExt.json?user=' + data['DeviceId'] + '&pass=' + data['OwnerPass'] + '&apiToken=' + tokenid
-	
-	api = 'https://api.weather.com/v3/wx/forecast/daily/5day?geocode=' + place['Coords'] + '&units=m&language=en-US&format=json&apiKey=f4664437a9f14d5ba64437a9f13d5b5a'	
+	api = 'https://api.weather.com/v3/wx/forecast/daily/5day?geocode=' + place['coords'] + '&units=m&language=en-US&format=json&apiKey=f4664437a9f14d5ba64437a9f13d5b5a'	
 	wunderground_data = http.request('GET', api)	
 	wunderground_dict = json.loads(wunderground_data.data.decode('UTF-8'))
 	date = []
@@ -37,100 +36,105 @@ def get_weather_data(place):
 	dayOfWeek = wunderground_dict['dayOfWeek']
 	precipChance = wunderground_dict['daypart'][0]['precipChance']
 	tempMax = wunderground_dict['daypart'][0]['temperature']
-	update_database(date,icons,desc,rainfall,precipChance,tempMax,place['Code'],place['Location'],dayOfWeek,rainfallDayNight)
+	update_database(date,icons,desc,rainfall,precipChance,tempMax,place,dayOfWeek,rainfallDayNight)
 	
 	
 def main():
 	data = [
 		{
-			"Code": "ICALABAR18",
-			"Coords": "14.156233,121.262197",
-			"Location": "IPB, UP Los Baños, Laguna"
+			"code": "IPB-UPLB",
+			"coords": "14.156233,121.262197",
+			"location": "IPB, UP Los Baños, Laguna"
 		},
 		{
-			"Code": "ICAGAYAN3",
-			"Coords": "17.410517,21.813614",
-			"Location": "ISU Cabagan, Isabela"
+			"code": "MMSU-Batac",
+			"coords": "18.054028,120.545667",
+			"location": "MMSU Batac Ilocos Norte"
 		},
 		{
-			"Code": "ICAGAYAN2",
-			"Coords": "16.725611,121.698503",
-			"Location": "ISU Echague, Isabela"
+			"code": "ISU-Cabagan",
+			"coords": "17.410517,21.813614",
+			"location": "ISU Cabagan, Isabela"
 		},
 		{
-			"Code": "ICENTRAL91",
-			"Coords": "15.738165,120.928400",
-			"Location": "CLSU Muñoz, Nueva Ecija"
+			"code": "ISU-Echague",
+			"coords": "16.725611,121.698503",
+			"location": "ISU Echague, Isabela"
 		},
 		{
-			"Code": "ICALABAR25",
-			"Coords": "13.944936,121.369765",
-			"Location": "DA-QAES Tiaong, Quezon"
+			"code": "CLSU-Munoz",
+			"coords": "15.738165,120.928400",
+			"location": "CLSU Muñoz, Nueva Ecija"
 		},
 		{
-			"Code": "IWESTERN635",
-			"Coords": "11.102263,122.414762",
-			"Location": "WVSU Lambunao, Iloilo City"
+			"code": "DAQAES-Tiaong",
+			"coords": "13.944936,121.369765",
+			"location": "DA-QAES Tiaong, Quezon"
 		},
 		{
-			"Code": "ICENTRAL94",
-			"Coords": "10.132925,123.546750",
-			"Location": "CTU Barili, Cebu"
+			"code": "WVSU-Iloilo",
+			"coords": "11.102263,122.414762",
+			"location": "WVSU Lambunao, Iloilo City"
 		},
 		{
-			"Code": "IBICOLGU2",
-			"Coords": "13.192833,123.595327",
-			"Location": "BUCAF Guinobatan, Albay"
+			"code": "CTU-Barili",
+			"coords": "10.132925,123.546750",
+			"location": "CTU Barili, Cebu"
 		},
 		{
-			"Code": "IMIMAROP6",
-			"Coords": "9.443356,118.560378",
-			"Location": "WPU Aborlan, Palawan"
+			"code": "BUCAF-Albay",
+			"coords": "13.192833,123.595327",
+			"location": "BUCAF Guinobatan, Albay"
 		},
 		{
-			"Code": "IMIMAROP7",
-			"Coords": "13.149028,121.187139",
-			"Location": "MinSCAT Alcate, Victoria, Oriental Mindoro"
+			"code": "WPU-Aborlan",
+			"coords": "9.443356,118.560378",
+			"location": "WPU Aborlan, Palawan"
 		},
 		{
-			"Code": "IMIMAROP8",
-			"Coords": "13.130432,120.704186",
-			"Location": "PhilRice Sta Cruz, Occidental Mindoro"
+			"code": "MINSCAT-Mindoro",
+			"coords": "13.149028,121.187139",
+			"location": "MinSCAT Alcate, Victoria, Oriental Mindoro"
 		},
 		{
-			"Code": "IZAMBOAN4",
-			"Coords": "6.996182,121.929624",
-			"Location": "PCA San Ramon, Zamboanga del Sur"
+			"code": "PHILRICE-Mindoro",
+			"coords": "13.130432,120.704186",
+			"location": "PhilRice Sta Cruz, Occidental Mindoro"
 		},
 		{
-			"Code": "IDAVAORE19",
-			"Coords": "6.691228,125.188743",
-			"Location": "SPAMAST Kapoc ,Matanao, Davao del Sur"
+			"code": "PCA-Zamboanga",
+			"coords": "6.996182,121.929624",
+			"location": "PCA San Ramon, Zamboanga del Sur"
 		},
 		{
-			"Code": "IDAVAORE20",
-			"Coords": "6.489740,125.545582",
-			"Location": "SPAMAST Buhangin Campus, Malita, Davao Occ"
+			"code": "SPAMAST-Matanao",
+			"coords": "6.691228,125.188743",
+			"location": "SPAMAST Kapoc ,Matanao, Davao del Sur"
 		},
 		{
-			"Code": "INORTHER117",
-			"Coords": "7.855571,125.057929",
-			"Location": "CMU Maramag, Bukidnon"
+			"code": "SPAMAST-Malita",
+			"coords": "6.489740,125.545582",
+			"location": "SPAMAST Buhangin Campus, Malita, Davao Occidental"
 		},
 		{
-			"Code": "INORTHER86",
-			"Coords": "8.610266,124.883303",
-			"Location": "USTP Claveria, Misamis Oriental"
+			"code": "CMU-Maramag",
+			"coords": "7.855571,125.057929",
+			"location": "CMU Maramag, Bukidnon"
 		},
 		{
-			"Code": "IREGIONX6",
-			"Coords": "7.110252,124.851728",
-			"Location": "USM Kabacan, Cotabato"
+			"code": "USTP-Claveria",
+			"coords": "8.610266,124.883303",
+			"location": "USTP Claveria, Misamis Oriental"
 		},
 		{
-			"Code": "IWESTERN596",
-			"Coords": "10.404912,122.978921",
-			"Location": "UPLB-CA La Carlota, Negros Occidental"
+			"code": "USM-Kabacan",
+			"coords": "7.110252,124.851728",
+			"location": "USM Kabacan, Cotabato"
+		},
+		{
+			"code": "UPLBCA-LaGranja",
+			"coords": "10.404912,122.978921",
+			"location": "UPLB-CA La Carlota, Negros Occidental"
 		}
     	]
 	
