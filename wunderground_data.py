@@ -53,7 +53,7 @@ def main():
 		},
 		{
 			"code": "ISU-Cabagan",
-			"coords": "17.410517,21.813614",
+			"coords": "17.410517,121.813614",
 			"location": "ISU Cabagan, Isabela"
 		},
 		{
