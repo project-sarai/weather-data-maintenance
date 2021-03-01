@@ -19,7 +19,7 @@ def update_database(date,icons,desc,rainfall,precipChance,tempMax,place,dayOfWee
 	print(rainfall)
 	print(tempMax)
 	print()	
-	collection.update({'code':place['code'], 'location': place['location']}, {'$set': {'rainfall':rainfall,'rainfallDayNight':rainfallDayNight,'date':date,'desc': desc,'icons': icons,'precipChance':precipChance, 'tempMax': tempMax, 'dayOfWeek': dayOfWeek}}, upsert=True)
+	collection.update({'code':place['code'], 'location': place['location'], 'coordinates':place['coords']}, {'$set': {'rainfall':rainfall,'rainfallDayNight':rainfallDayNight,'date':date,'desc': desc,'icons': icons,'precipChance':precipChance, 'tempMax': tempMax, 'dayOfWeek': dayOfWeek}}, upsert=True)
 
 def get_weather_data(place):
 	api = 'https://api.weather.com/v3/wx/forecast/daily/5day?geocode=' + place['coords'] + '&units=m&language=en-US&format=json&apiKey=f4664437a9f14d5ba64437a9f13d5b5a'	
