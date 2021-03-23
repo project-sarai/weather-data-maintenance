@@ -2,6 +2,7 @@
 from pymongo import MongoClient
 import urllib3
 import json
+import reverse_geocoder as rg
 
 mongodb_host = 'localhost'
 mongodb_port = '3001' #change port depending on database
@@ -26,6 +27,8 @@ def getData():
         response = http.request('GET',api)
         seamsData = json.loads(response.data.decode('UTF-8'))
         for data in seamsData['documents']:
+            coordinates = (data['fields']['coords']['arrayValue']['values'][0]['doubleValue'], data['fields']['coords']['arrayValue']['values'][1]['doubleValue'])
+            reverseGeocode = rg.search(coordinates)
             seamsGallery.append({
                 'coords': {
                     'lat' : data['fields']['coords']['arrayValue']['values'][0]['doubleValue'],
@@ -41,6 +44,9 @@ def getData():
                 'crop' : data['fields']['crop']['stringValue'],
                 'title': data['fields']['title']['stringValue'] if ('title' in data['fields'].keys()) else '',
                 'description' : data['fields']['description']['stringValue'],
+                'imageUrl' : data['fields']['imageUrl']['stringValue'],
+                'province' : reverseGeocode[0]['admin2'],
+                'municipality' : reverseGeocode[0]['name']
             })
 
         print(len(seamsGallery))
