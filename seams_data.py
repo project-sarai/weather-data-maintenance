@@ -22,6 +22,7 @@ def getData():
     api = "https://firestore.googleapis.com/v1beta1/projects/seams-image-caputring/databases/(default)/documents/post?pageToken="
     seamsGallery = []
     token = ""
+    index = 1
     while True:
         api = "https://firestore.googleapis.com/v1beta1/projects/seams-image-caputring/databases/(default)/documents/post?pageToken=" + token
         response = http.request('GET',api)
@@ -46,8 +47,10 @@ def getData():
                 'description' : data['fields']['description']['stringValue'],
                 'imageUrl' : data['fields']['imageUrl']['stringValue'],
                 'province' : reverseGeocode[0]['admin2'],
-                'municipality' : reverseGeocode[0]['name']
+                'municipality' : reverseGeocode[0]['name'],
+                'fileName' : str(index) + '.jpeg'
             })
+            index += 1
 
         print(len(seamsGallery))
 
