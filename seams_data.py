@@ -14,7 +14,7 @@ province_collection = db['seams-provinces']
 http = urllib3.PoolManager()
 
 def updateProvinces(provinces_dict):
-    provinces = []
+    provinces = [{'province':'All','municipality':['All']}]
     for key in provinces_dict.keys():
         provinces.append({
             'province':key,
@@ -23,7 +23,7 @@ def updateProvinces(provinces_dict):
     
     province_collection.remove({})
     x = province_collection.insert_many(provinces)
-    print(provinces)
+    print(x)
 
 
 def updateDatabase(seamsGallery):
