@@ -9,8 +9,22 @@ mongodb_port = '3001' #change port depending on database
 client  = MongoClient(mongodb_host + ':' + mongodb_port)
 db = client['meteor'] #change according to the db name
 collection = db['seams-gallery']
+province_collection = db['seams-provinces']
 
 http = urllib3.PoolManager()
+
+def updateProvinces(provinces_dict):
+    provinces = []
+    for key in provinces_dict.keys():
+        provinces.append({
+            'province':key,
+            'municipality': list(provinces_dict[key].keys())
+        })
+    
+    province_collection.remove({})
+    x = province_collection.insert_many(provinces)
+    print(provinces)
+
 
 def updateDatabase(seamsGallery):
     collection.remove({})
@@ -23,6 +37,7 @@ def getData():
     seamsGallery = []
     token = ""
     index = 1
+    provinces = {}
     while True:
         api = "https://firestore.googleapis.com/v1beta1/projects/seams-image-caputring/databases/(default)/documents/post?pageToken=" + token
         response = http.request('GET',api)
@@ -30,6 +45,12 @@ def getData():
         for data in seamsData['documents']:
             coordinates = (data['fields']['coords']['arrayValue']['values'][0]['doubleValue'], data['fields']['coords']['arrayValue']['values'][1]['doubleValue'])
             reverseGeocode = rg.search(coordinates)
+
+            if reverseGeocode[0]['admin2'] not in provinces.keys():
+                provinces[reverseGeocode[0]['admin2']] = {}    
+
+            provinces[reverseGeocode[0]['admin2']][reverseGeocode[0]['name']] = 1
+
             seamsGallery.append({
                 'coords': {
                     'lat' : data['fields']['coords']['arrayValue']['values'][0]['doubleValue'],
@@ -59,6 +80,7 @@ def getData():
         
         token = seamsData['nextPageToken']
 
+    updateProvinces(provinces)
     return seamsGallery
 
 
