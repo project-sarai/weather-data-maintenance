@@ -52,6 +52,7 @@ def getData():
             provinces[reverseGeocode[0]['admin2']][reverseGeocode[0]['name']] = 1
 
             seamsGallery.append({
+                'name': data['name'],
                 'coords': {
                     'lat' : data['fields']['coords']['arrayValue']['values'][0]['doubleValue'],
                     'long' : data['fields']['coords']['arrayValue']['values'][1]['doubleValue']
@@ -66,7 +67,7 @@ def getData():
                 'crop' : data['fields']['crop']['stringValue'],
                 'title': data['fields']['title']['stringValue'] if ('title' in data['fields'].keys()) else '',
                 'description' : data['fields']['description']['stringValue'],
-                'imageUrl' : data['fields']['imageUrl']['stringValue'],
+                #'imageUrl' : data['fields']['imageUrl']['stringValue'],
                 'province' : reverseGeocode[0]['admin2'],
                 'municipality' : reverseGeocode[0]['name'],
                 'fileName' : str(index) + '.jpeg'
