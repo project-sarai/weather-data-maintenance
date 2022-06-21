@@ -135,8 +135,53 @@ def main():
 			"code": "UPLBCA-LaGranja",
 			"coords": "10.404912,122.978921",
 			"location": "UPLB-CA La Carlota, Negros Occidental"
-		}
-    	]
+		},
+		{
+			"code": "BENGUET,TUBLAY_AWS_SITE01",
+			"coords": "16.47686,120.65982",
+			"location": "Benguet, Tublay AWS"
+		},
+		{
+			"code": "BENGUET,BUNGUIAS_AWS_SITE02",
+			"coords": "16.69085,120.77909",
+			"location": "Benguet, Bunguias AWS"
+		},
+		{
+			"code": "BENGUET,ITOGON,ISRI_AWS_SITE03",
+			"coords": "16.34874,120.67166",
+			"location": "Benguet, Itogon, ISRI AWS"
+		},
+		{
+			"code": "LAGUNA,SINOLOAN, LANDGRANT_AWS_SITE04",
+			"coords": "14.49039,121.51458",
+			"location": "Laguna, Sinologan, Landgrant AWS"
+		},
+		{
+			"code": "BATANGAS, LOBO AWS",
+			"coords": "13.67721,121.25239",
+			"location": "Batangas, Lobo AWS"
+		},
+		{
+			"code": "LIGTAS BOKOD AWS",
+			"coords": "16.55000,120.84000",
+			"location": "Ligtas Bokod AWS"
+		},
+		{
+			"code": "LIGTAS MANKAYAN AWS",
+			"coords": "16.82303,120.81789",
+			"location": "Ligtas Mankayan AWS"
+		},
+		{
+			"code": "LIGTAS ITOGON AWS",
+			"coords": "16.40175,120.64647",
+			"location": "Ligtas Itogon AWS"
+		},
+		{
+			"code": "LIGTAS UEP SAMAR AWS",
+			"coords": "12.50878,124.66461",
+			"location": "Ligtas UEP Samar AWS"
+		},
+    ]
 	
 	for d in data:
 		get_weather_data(d)
