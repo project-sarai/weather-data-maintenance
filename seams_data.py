@@ -21,13 +21,13 @@ def updateProvinces(provinces_dict):
             'municipality': list(provinces_dict[key].keys())
         })
     
-    province_collection.remove({})
+    province_collection.delete_many({})
     x = province_collection.insert_many(provinces)
     print(x)
 
 
 def updateDatabase(seamsGallery):
-    collection.remove({})
+    collection.delete_many({})
     x = collection.insert_many(seamsGallery)
     print(x)
     
