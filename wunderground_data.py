@@ -37,7 +37,7 @@ def get_weather_data(place):
 	precipChance = wunderground_dict['daypart'][0]['precipChance']
 	tempMax = wunderground_dict['daypart'][0]['temperature']
 	update_database(date,icons,desc,rainfall,precipChance,tempMax,place,dayOfWeek,rainfallDayNight)
-	
+
 	
 def main():
 	data = [
@@ -180,6 +180,71 @@ def main():
 			"code": "LIGTAS UEP SAMAR AWS",
 			"coords": "12.50878,124.66461",
 			"location": "Ligtas UEP Samar AWS"
+		},
+		{
+			"code": "REGION 4A DA BRGY. CALAWIS",
+			"coords": "14.65002,121.24125",
+			"location": "Region 4A DA Brgy. Calawis"
+		},
+		{
+			"code": "Region 4A DA AMADEO CAVITE",
+			"coords": "14.1717271,120.9342409",
+			"location": "Region 4A DA Amadeo Cavite"
+		},
+		{
+			"code": "Region 4A DA ATIMONAN QUEZON",
+			"coords": "13.9911032,121.8987722",
+			"location": "Region 4A DA Atimonan Quezon"
+		},
+		{
+			"code": "Region 4A DA BUENAVISTA QUEZON",
+			"coords": "13.72249,122.42407",
+			"location": "Region 4A DA Buenavista Quezon"
+		},
+		{
+			"code": "Region 4A DA CAVINTI LAGUNA",
+			"coords": "14.2664331,121.5471692",
+			"location": "Region 4A DA Cavinti Laguna"
+		},
+		{
+			"code": "Region 4A DA GEN. NAKAR QUEZON",
+			"coords": "14.7715568,121.6370445",
+			"location": "Region 4A DA Gen. Nakar Quezon"
+		},
+		{
+			"code": "Region 4A DA LARES Batangas",
+			"coords": "13.96009,121.16844",
+			"location": "Region 4A DA Lares Batangas"
+		},
+		{
+			"code": "Region 4A DA MARAGONDON CAVITE",
+			"coords": "14.24767,120.79567",
+			"location": "Region 4A DA Maragondon Cavite"
+		},
+		{
+			"code": "Region 4A DA MORONG RIZAL",
+			"coords": "14.5120217,121.238134",
+			"location": "Region 4A DA Morong Rizal"
+		},
+		{
+			"code": "Region 4A DA PILA LAGUNA",
+			"coords": "14.2215023,121.3703309",
+			"location": "Region 4A DA Pila Laguna"
+		},
+		{
+			"code": "Region 4A DA RARES TANAY RIZAL",
+			"coords": "14.57667,121.33936",
+			"location": "Region 4A DA Rares Tanay Rizal"
+		},
+		{
+			"code": "Region 4A DA SAN LUIS BATANGAS",
+			"coords": "13.8324203,120.9442319",
+			"location": "Region 4A DA San Luis Batangas"
+		},
+		{
+			"code": "Region 4A DA SARIAYA QUEZON",
+			"coords": "14.001996297761314,121.52269698679446",
+			"location": "Region 4A DA Sariaya Quezon"
 		},
     ]
 	
